@@ -14,6 +14,7 @@ import Modal from "../components/Modal";
 import CreateTask from "../components/CreateTask";
 import { useKanbanstore } from "../helper/kanbanstore";
 import CreateBoard from "../components/CreateBoard";
+import Task from "../components/Task";
 
 const page: FC = ({ params }: Params) => {
   const { taskModal, boardModal, selectedBoard } = useKanbanstore();
@@ -48,7 +49,9 @@ const page: FC = ({ params }: Params) => {
               {columns.map((item, key) => {
                 return (
                   <PllarTitle key={key} name={item}>
-                    <Pillar></Pillar>
+                    <Pillar>
+                      <Task></Task>
+                    </Pillar>
                   </PllarTitle>
                 );
               })}

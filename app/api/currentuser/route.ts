@@ -11,7 +11,19 @@ export const POST = async (req: Request) => {
     await dbconnect();
     const user = await prisma.user.findFirst({
       where: { verificationid: id },
-      select: { username: true, email: true, boards: true, id: true },
+      select: {
+        username: true,
+        email: true,
+        boards: {
+          select: {
+            id: true,
+            tasks: { select: { id: true, task: true, status: true } },
+            userId: true,
+            name: true,
+          },
+        },
+        id: true,
+      },
     });
     if (!user) {
       return NextResponse.json(
