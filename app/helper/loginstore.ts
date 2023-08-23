@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import axios from "axios";
-import { redirect } from "next/navigation";
 
 interface loginStore {
   isVerified: boolean;
@@ -56,7 +55,7 @@ export const useLoginStore = create<loginStore>((set, get) => ({
   login: async (e) => {
     e.preventDefault();
     try {
-      const user = await axios.post("/api/login", {
+      await axios.post("/api/login", {
         email: get().loginEmail,
         password: get().loginPassword,
       });
