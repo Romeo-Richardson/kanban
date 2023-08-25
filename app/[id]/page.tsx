@@ -1,20 +1,19 @@
 "use client";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import KanbanLoading from "../../components/KanbanLoading";
-import Sidenav from "../../components/Sidenav";
-import Main from "../../components/Main";
-import Topnav from "../../components/Topnav";
-import Pillar from "../../components/Pillar";
-import PillarContainer from "../../components/PillarContainer";
-import PllarTitle from "../../components/PillarTitle";
-import Modal from "../../components/Modal";
-import CreateTask from "../../components/CreateTask";
-import { useKanbanstore } from "../../helper/kanbanstore";
-import CreateBoard from "../../components/CreateBoard";
-import Task from "../../components/Task";
+import KanbanLoading from "../components/KanbanLoading";
+import Sidenav from "../components/Sidenav";
+import Main from "../components/Main";
+import Topnav from "../components/Topnav";
+import Pillar from "../components/Pillar";
+import PillarContainer from "../components/PillarContainer";
+import PllarTitle from "../components/PillarTitle";
+import CreateTask from "../components/CreateTask";
+import { useKanbanstore } from "../helper/kanbanstore";
+import CreateBoard from "../components/CreateBoard";
+import Task from "../components/Task";
 import { task, board } from "@prisma/client";
 
 interface Tboard extends board {
@@ -35,10 +34,6 @@ const page: FC = ({ params }: Params) => {
 
   const columns = ["Todo", "Doing", "Complete"];
 
-  if (isFetched) {
-    console.log(user.username);
-  }
-
   return (
     <main
       className={`flex min-h-screen ${isLoading ? "justify-center" : null}`}
@@ -56,13 +51,17 @@ const page: FC = ({ params }: Params) => {
                   {columns.map((item, key) => {
                     return (
                       <PllarTitle key={key} name={item}>
-                        <Pillar>
+                        <Pillar name={item}>
                           {user.boards
                             .filter((board: Tboard) => {
                               return board.id === selectedBoard;
-                            })
-                            .map((item: task) => {
-                              return <Task task={item}></Task>;
+                            })[0]
+                            .tasks.map((task: task, secondKey: number) => {
+                              if (task.status === item) {
+                                return (
+                                  <Task key={secondKey} task={task}></Task>
+                                );
+                              }
                             })}
                         </Pillar>
                       </PllarTitle>

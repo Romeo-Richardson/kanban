@@ -55,10 +55,12 @@ export const useLoginStore = create<loginStore>((set, get) => ({
   login: async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/api/login", {
+      const { data } = await axios.post("/api/login", {
         email: get().loginEmail,
         password: get().loginPassword,
       });
+      set({ isVerified: true });
+      set({ connectionName: data.id });
     } catch (error: any) {
       throw new Error(error.message);
     }

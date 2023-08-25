@@ -8,7 +8,7 @@ interface props {
 const Task = ({ task }: props): React.ReactNode => {
   return (
     <div className=" w-full h-[10%] bg-slate-900 border-gray-300 border-[1px] rounded-md p-4 text-white">
-      <p>This is a New Task</p>
+      <p>{task.task}</p>
     </div>
   );
 };

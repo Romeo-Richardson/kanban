@@ -4,7 +4,7 @@ import React, { FC, useEffect, useState, useRef } from "react";
 import { useLoginStore } from "../helper/loginstore";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const SignupPortion: FC = () => {
   const usernameInputref = useRef<HTMLInputElement>(null);
@@ -149,6 +149,8 @@ const LoginPortion: FC = () => {
 const Login: FC = () => {
   const [isSignup, setIsSignup] = useState<boolean>(false);
 
+  const { push } = useRouter();
+
   const { connectionName, setIsVerified, email, isVerified } = useLoginStore();
 
   const authenticateUser = async (id: string) => {
@@ -180,7 +182,7 @@ const Login: FC = () => {
   useEffect(() => {
     if (isVerified) {
       toast("Logging In");
-      redirect(`/${connectionName}`);
+      push(`/${connectionName}`);
     }
   }, [isVerified]);
 

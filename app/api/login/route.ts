@@ -36,7 +36,7 @@ export const POST = async (req: NextRequest) => {
       NextResponse.json({ error: "Unable to create token" }, { status: 403 });
     }
     const response = NextResponse.json(
-      { message: "Login Success" },
+      { message: "Login Success", id: findUser.verificationid },
       { status: 200 }
     );
     response.cookies.set("token", token);

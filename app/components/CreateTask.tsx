@@ -52,9 +52,9 @@ const CreateTask = ({ user, show }: props): React.ReactNode => {
           <form
             className="p-4 w-[450px] flex flex-col items-center bg-slate-900 rounded-md border-gray-600 gap-4 border-[1px] text-white"
             ref={createTaskRef}
-            onSubmit={() => {
+            onSubmit={async () => {
               setTaskModal(false);
-              toast.promise(createTask(), {
+              await toast.promise(createTask(), {
                 loading: "Creating Task",
                 success: "Task Created",
                 error: "Unable to create task",

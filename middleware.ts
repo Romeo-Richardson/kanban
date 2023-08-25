@@ -12,7 +12,7 @@ export const middleware = async (req: NextRequest) => {
   if ((checkPath.isLogin && token) || (checkPath.isHome && token)) {
     const id = await Promise.resolve(tokenData(req));
     console.log(id);
-    return NextResponse.redirect(new URL(`/home/${id}`, req.nextUrl));
+    return NextResponse.redirect(new URL(`/${id}`, req.nextUrl));
   } else if (checkPath.isHome && !token) {
     return NextResponse.redirect(new URL("/login", req.nextUrl));
   }

@@ -2,6 +2,7 @@ import React from "react";
 
 interface props {
   children: React.ReactNode;
+  name: string;
 }
 
 const Pillar = ({ children }: props): React.ReactNode => {
