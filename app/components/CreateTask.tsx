@@ -4,11 +4,8 @@ import { useClickOutside } from "@react-hookz/web";
 import Modal from "./Modal";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { useQuery } from "@tanstack/react-query";
-
-interface board {
-  name: string;
-}
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { board } from "@prisma/client";
 
 interface props {
   user: {
@@ -33,6 +30,8 @@ const CreateTask = ({ user, show }: props): React.ReactNode => {
 
   const { refetch } = useQuery(["user"]);
 
+  const queryClient = useQueryClient();
+
   const createTask = async () => {
     try {
       await axios.post("/api/createtask", {
@@ -40,6 +39,19 @@ const CreateTask = ({ user, show }: props): React.ReactNode => {
         task: taskInput,
         board: selectedBoard,
       });
+      await queryClient.cancelQueries({ queryKey: ["user"] });
+      const prev: any = queryClient.getQueryData(["user"]);
+      const findBoard = prev.boards.filter((board: board) => {
+        return board.id === selectedBoard;
+      })[0];
+      console.log(findBoard);
+      const boardIndex = prev.boards.indexOf(findBoard);
+      prev.boards[boardIndex].tasks.push({
+        name: taskNameInput,
+        task: taskInput,
+      });
+      queryClient.setQueryData(["user"], prev);
+      queryClient.invalidateQueries({ queryKey: ["user"] });
     } catch (error: any) {
       throw new Error(error.message);
     }
@@ -52,7 +64,8 @@ const CreateTask = ({ user, show }: props): React.ReactNode => {
           <form
             className="p-4 w-[450px] flex flex-col items-center bg-slate-900 rounded-md border-gray-600 gap-4 border-[1px] text-white"
             ref={createTaskRef}
-            onSubmit={async () => {
+            onSubmit={async (e) => {
+              e.preventDefault();
               setTaskModal(false);
               await toast.promise(createTask(), {
                 loading: "Creating Task",

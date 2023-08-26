@@ -5,6 +5,8 @@ interface kanban {
   setTaskModal: (data: boolean) => void;
   boardModal: boolean;
   setBoardModal: (data: boolean) => void;
+  columnModal: boolean;
+  setColumnModal: (data: boolean) => void;
   selectedBoard: string | null;
   setSelectedBoard: (data: string) => void;
 }
@@ -23,5 +25,9 @@ export const useKanbanstore = create<kanban>((set, get) => ({
   selectedBoard: null,
   setSelectedBoard: (data: string) => {
     set({ selectedBoard: data });
+  },
+  columnModal: false,
+  setColumnModal: (data: boolean) => {
+    set({ columnModal: data });
   },
 }));

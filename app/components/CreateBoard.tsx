@@ -4,35 +4,39 @@ import { useClickOutside } from "@react-hookz/web";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import Modal from "./Modal";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { user } from "@prisma/client";
 
 interface props {
-  user: {
-    name: string;
-    email: string;
-    verificationId: string;
-    id: string;
-  };
+  user: user;
   show: boolean;
 }
 
 const CreateBoard = ({ user, show }: props): React.ReactNode => {
-  const [boardInput, setBoardInput] = useState<string | null>(null);
+  const [boardInput, setBoardInput] = useState<string>("");
   const { setBoardModal } = useKanbanstore();
   const createBoardRef = useRef(null);
   useClickOutside(createBoardRef, () => {
     setBoardModal(false);
   });
 
+  const queryClient = useQueryClient();
+
   const createBoard = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
     try {
-      axios.post("/api/createboard", {
+      await axios.post("/api/createboard", {
         name: boardInput,
         id: user.id,
       });
+      await queryClient.cancelQueries({ queryKey: ["user"] });
+      const prev: any = queryClient.getQueryData(["user"]);
+      prev.boards.push({ name: boardInput });
+      queryClient.setQueryData(["user"], prev);
+      queryClient.invalidateQueries({ queryKey: ["user"] });
     } catch (error: any) {
       throw new Error(error.message);
+    } finally {
+      setBoardModal(false);
     }
   };
 
@@ -44,12 +48,12 @@ const CreateBoard = ({ user, show }: props): React.ReactNode => {
             className="w-[450px]  p-4 flex flex-col items-center bg-slate-900 rounded-md border-gray-600 gap-4 border-[1px] text-white"
             ref={createBoardRef}
             onSubmit={async (e) => {
+              e.preventDefault();
               await toast.promise(createBoard(e), {
                 loading: "Creating Board",
                 success: "Board Created",
                 error: "Failed to create board",
               });
-              setBoardModal(false);
             }}
           >
             <label htmlFor="createTask">Create Board</label>

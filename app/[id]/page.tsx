@@ -15,6 +15,7 @@ import { useKanbanstore } from "../helper/kanbanstore";
 import CreateBoard from "../components/CreateBoard";
 import Task from "../components/Task";
 import { task, board } from "@prisma/client";
+import CreateColumn from "../components/CreateColumn";
 
 interface Tboard extends board {
   tasks: task[];
@@ -22,7 +23,8 @@ interface Tboard extends board {
 
 const page: FC = ({ params }: Params) => {
   const [columns, setColumns] = useState<string[] | null>(null);
-  const { taskModal, boardModal, selectedBoard } = useKanbanstore();
+  const { taskModal, boardModal, columnModal, selectedBoard } =
+    useKanbanstore();
   const {
     data: user,
     isFetched,
@@ -82,6 +84,7 @@ const page: FC = ({ params }: Params) => {
           </Main>
           <CreateTask user={user} show={taskModal}></CreateTask>
           <CreateBoard user={user} show={boardModal}></CreateBoard>
+          <CreateColumn show={columnModal}></CreateColumn>
         </>
       )}
     </main>

@@ -20,7 +20,7 @@ const Sidenav = ({ boards }: props): React.ReactNode => {
           height={55}
           width={55}
           alt="Logo"
-          className="ml-4 hover:cursor-pointer"
+          className="ml-"
         ></Image>
         <h1 className="  text-4xl text-white">
           <strong>Kanban</strong>

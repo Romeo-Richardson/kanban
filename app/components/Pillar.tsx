@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { useKanbanstore } from "../helper/kanbanstore";
 import { board, task } from "@prisma/client";
 import toast from "react-hot-toast";
@@ -20,7 +20,7 @@ const Pillar = ({ children, name }: props): React.ReactNode => {
       id: taskId,
       status: name,
     });
-    await queryClient.cancelQueries(["user"]);
+    await queryClient.cancelQueries({ queryKey: ["user"] });
     const prevData: any = await queryClient.getQueryData(["user"]);
     const findBoard = prevData.boards.filter((board: board) => {
       return board.id === selectedBoard;

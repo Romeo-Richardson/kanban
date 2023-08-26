@@ -12,7 +12,7 @@ type props = {
 };
 
 const Topnav = ({ name, boards }: props): React.ReactNode => {
-  const { setTaskModal, selectedBoard } = useKanbanstore();
+  const { setTaskModal, selectedBoard, setColumnModal } = useKanbanstore();
   const [dropdown, setDropdown] = useState<boolean>(false);
   const { data: user }: any = useQuery(["user"]);
 
@@ -52,10 +52,16 @@ const Topnav = ({ name, boards }: props): React.ReactNode => {
         {dropdown ? (
           <>
             <div
-              className=" bg-slate-900 text-white border-gray-300 border-[1px] w-32 z-10 absolute rounded top-20 right-8"
+              className=" bg-slate-900 text-white border-gray-800 border-[1px] w-32 z-10 absolute rounded top-20 right-8"
               ref={dropRef}
             >
-              <div className=" hover:bg-slate-700 p-2 hover:cursor-pointer duration-300">
+              <div
+                className=" hover:bg-slate-700 p-2 hover:cursor-pointer duration-300"
+                onClick={() => {
+                  setColumnModal(true);
+                  setDropdown(false);
+                }}
+              >
                 <p>New Column</p>
               </div>
               <div className="hover:bg-slate-700 p-2 hover:cursor-pointer duration-300">
