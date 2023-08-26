@@ -22,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-slate-900`}>
+      <body className={`${inter.className} bg-slate-900 m-auto p-0`}>
         <Toaster position="top-center"></Toaster>
         <QueryClientProvider client={queryClient}>
           {children}

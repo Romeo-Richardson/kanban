@@ -6,8 +6,19 @@ interface props {
 }
 
 const Task = ({ task }: props): React.ReactNode => {
+  const captureId = (e: React.DragEvent<HTMLDivElement>) => {
+    e.dataTransfer.setData("Task", task.id);
+    console.log(task.id);
+  };
+
   return (
-    <div className=" w-full h-[10%] bg-slate-900 border-gray-300 border-[1px] rounded-md p-4 text-white">
+    <div
+      draggable
+      className=" w-full bg-slate-900 border-gray-300 border-[1px] rounded-md p-4 text-white"
+      onDragStart={(e) => {
+        captureId(e);
+      }}
+    >
       <p>{task.task}</p>
     </div>
   );

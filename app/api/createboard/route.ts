@@ -16,6 +16,7 @@ export const POST = async (req: Request) => {
       data: {
         name: name,
         userId: id,
+        columns: ["Todo", "Doing", "Complete"],
       },
     });
     if (!newBoard) {

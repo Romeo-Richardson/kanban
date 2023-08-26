@@ -20,6 +20,7 @@ export const POST = async (req: Request) => {
             tasks: { select: { id: true, task: true, status: true } },
             userId: true,
             name: true,
+            columns: true,
           },
         },
         id: true,

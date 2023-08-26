@@ -7,7 +7,7 @@ type containerType = {
 
 const PillarTitle = ({ children, name }: containerType): React.ReactNode => {
   return (
-    <div className="h-[90%] w-72 flex flex-col items-center gap-4">
+    <div className="h-[90%] w-72 flex flex-col items-center mx-12 gap-4">
       <p className="text-white">{`${name}`}</p>
       {children}
     </div>

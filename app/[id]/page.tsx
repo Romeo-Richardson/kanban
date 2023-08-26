@@ -1,6 +1,6 @@
 "use client";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import KanbanLoading from "../components/KanbanLoading";
@@ -21,6 +21,7 @@ interface Tboard extends board {
 }
 
 const page: FC = ({ params }: Params) => {
+  const [columns, setColumns] = useState<string[] | null>(null);
   const { taskModal, boardModal, selectedBoard } = useKanbanstore();
   const {
     data: user,
@@ -32,7 +33,15 @@ const page: FC = ({ params }: Params) => {
     return user.data.user;
   });
 
-  const columns = ["Todo", "Doing", "Complete"];
+  useEffect(() => {
+    if (isFetched && selectedBoard) {
+      const getColumns = user.boards.filter((board: board) => {
+        return board.id === selectedBoard;
+      })[0];
+      console.log(getColumns.columns);
+      setColumns((prev) => (prev = [...getColumns.columns]));
+    }
+  }, [selectedBoard]);
 
   return (
     <main
@@ -44,11 +53,11 @@ const page: FC = ({ params }: Params) => {
         <>
           <Sidenav boards={user.boards}></Sidenav>
           <Main>
-            <Topnav name={user.username}></Topnav>
+            <Topnav name={user.username} boards={user.boards}></Topnav>
             <PillarContainer>
               {selectedBoard ? (
                 <>
-                  {columns.map((item, key) => {
+                  {columns?.map((item, key) => {
                     return (
                       <PllarTitle key={key} name={item}>
                         <Pillar name={item}>
