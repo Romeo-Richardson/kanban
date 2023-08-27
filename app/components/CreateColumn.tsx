@@ -4,19 +4,23 @@ import { useClickOutside } from "@react-hookz/web";
 import { useKanbanstore } from "../helper/kanbanstore";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { board } from "@prisma/client";
 
 interface props {
   show: boolean;
+  columns: string[];
 }
 
-const CreateColumn = ({ show }: props): React.ReactNode => {
+const CreateColumn = ({ show, columns }: props): React.ReactNode => {
   const { setColumnModal, selectedBoard } = useKanbanstore();
-  const [columnInput, setColumnInput] = useState<string | null>(null);
+  const [columnInput, setColumnInput] = useState<string>("");
 
   const { refetch } = useQuery(["user"]);
 
   const createColumnRef = useRef(null);
+
+  const queryClient = useQueryClient();
 
   useClickOutside(createColumnRef, () => {
     setColumnModal(false);
@@ -28,6 +32,17 @@ const CreateColumn = ({ show }: props): React.ReactNode => {
         name: columnInput,
         id: selectedBoard,
       });
+      await queryClient.cancelQueries({ queryKey: ["user"] });
+      const current: any = queryClient.getQueryData(["user"]);
+      const prev = { ...current };
+      const findBoard = prev.boards.filter((board: board) => {
+        return board.id === selectedBoard;
+      })[0];
+      const boardIndex = prev.boards.indexOf(findBoard);
+      prev.boards[boardIndex].columns.push(columnInput);
+      console.log(prev);
+      queryClient.setQueryData(["user"], prev);
+      queryClient.invalidateQueries({ queryKey: ["user"] });
     } catch (error: any) {
       throw new Error(error.message);
     } finally {
@@ -40,26 +55,29 @@ const CreateColumn = ({ show }: props): React.ReactNode => {
       {show ? (
         <Modal>
           <form
-            className="p-4 w-[450px] flex flex-col items-center bg-slate-900 rounded-md border-gray-600 gap-4 border-[1px] text-white"
+            className="p-4 w-[275px] flex flex-col items-center bg-slate-900 rounded-md border-gray-600 gap-4 border-[1px] text-white"
             ref={createColumnRef}
             onSubmit={async (e) => {
               e.preventDefault();
-              if (selectedBoard) {
+              const checkColumns = columns.includes(columnInput);
+              if (!selectedBoard) {
+                toast.error("Please select a board");
+              } else if (checkColumns) {
+                toast.error("Duplicate Column");
+              } else {
                 await toast.promise(newColumn(), {
                   loading: "Creating Column",
                   success: "Column Created",
                   error: "Failed to create column",
                 });
                 refetch();
-              } else {
-                toast.error("Please select a board");
               }
             }}
           >
             <input
               name="Task"
               id="createTask"
-              className="text-black"
+              className="text-black p-2"
               placeholder="Column Name"
               onChange={(e) => {
                 setColumnInput(e.target.value);

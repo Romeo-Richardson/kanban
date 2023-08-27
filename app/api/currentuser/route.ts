@@ -17,7 +17,9 @@ export const POST = async (req: Request) => {
         boards: {
           select: {
             id: true,
-            tasks: { select: { id: true, task: true, status: true } },
+            tasks: {
+              select: { id: true, task: true, name: true, status: true },
+            },
             userId: true,
             name: true,
             columns: true,

@@ -5,12 +5,14 @@ import { useLoginStore } from "../helper/loginstore";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { connect } from "http2";
 
 const SignupPortion: FC = () => {
   const usernameInputref = useRef<HTMLInputElement>(null);
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
-  const { createUser, setUsername, setPassword, setEmail } = useLoginStore();
+  const { createUser, setUsername, setPassword, setEmail, setIsVerified } =
+    useLoginStore();
 
   return (
     <>
@@ -182,8 +184,9 @@ const Login: FC = () => {
   useEffect(() => {
     if (isVerified) {
       toast("Logging In");
-      push(`/${connectionName}`);
+      push(`/home/${connectionName}`);
     }
+    console.log("Trolling");
   }, [isVerified]);
 
   return (

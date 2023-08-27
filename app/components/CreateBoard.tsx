@@ -4,7 +4,7 @@ import { useClickOutside } from "@react-hookz/web";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import Modal from "./Modal";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { user } from "@prisma/client";
 
 interface props {
@@ -14,7 +14,7 @@ interface props {
 
 const CreateBoard = ({ user, show }: props): React.ReactNode => {
   const [boardInput, setBoardInput] = useState<string>("");
-  const { setBoardModal } = useKanbanstore();
+  const { setBoardModal, selectedBoard } = useKanbanstore();
   const createBoardRef = useRef(null);
   useClickOutside(createBoardRef, () => {
     setBoardModal(false);
@@ -45,7 +45,7 @@ const CreateBoard = ({ user, show }: props): React.ReactNode => {
       {show ? (
         <Modal>
           <form
-            className="w-[450px]  p-4 flex flex-col items-center bg-slate-900 rounded-md border-gray-600 gap-4 border-[1px] text-white"
+            className="w-[275px]  p-4 flex flex-col items-center bg-slate-900 rounded-md border-gray-600 gap-4 border-[1px] text-white"
             ref={createBoardRef}
             onSubmit={async (e) => {
               e.preventDefault();
@@ -60,7 +60,7 @@ const CreateBoard = ({ user, show }: props): React.ReactNode => {
             <input
               name="Task"
               id="createTask"
-              className="text-black"
+              className="text-black p-2"
               placeholder="Board Name"
               onChange={(e) => {
                 setBoardInput(e.target.value);

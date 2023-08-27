@@ -21,7 +21,6 @@ interface props {
 const CreateTask = ({ user, show }: props): React.ReactNode => {
   const [taskInput, setTaskInput] = useState<string | null>(null);
   const [taskNameInput, setTaskNameInput] = useState<string | null>(null);
-  const [board, setBoard] = useState<string | null>(null);
   const { setTaskModal, selectedBoard } = useKanbanstore();
   const createTaskRef = useRef(null);
   useClickOutside(createTaskRef, () => {
@@ -76,21 +75,6 @@ const CreateTask = ({ user, show }: props): React.ReactNode => {
             }}
           >
             <p className="text-white">Create New Task</p>
-            <select
-              defaultValue={"Select Board"}
-              onChange={(e) => {
-                setBoard(e.target.value);
-              }}
-              className="text-white w-full hover:cursor-pointer bg-slate-900 border-gray-800 rounded-sm border-[1px]"
-            >
-              {user.boards.map((item, key) => {
-                return (
-                  <option className=" text-left bg-slate-900" key={key}>
-                    {item.name}
-                  </option>
-                );
-              })}
-            </select>
             <input
               type="text"
               placeholder="Task Name"

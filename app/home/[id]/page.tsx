@@ -3,47 +3,47 @@ import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import React, { FC, useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import KanbanLoading from "../components/KanbanLoading";
-import Sidenav from "../components/Sidenav";
-import Main from "../components/Main";
-import Topnav from "../components/Topnav";
-import Pillar from "../components/Pillar";
-import PillarContainer from "../components/PillarContainer";
-import PllarTitle from "../components/PillarTitle";
-import CreateTask from "../components/CreateTask";
-import { useKanbanstore } from "../helper/kanbanstore";
-import CreateBoard from "../components/CreateBoard";
-import Task from "../components/Task";
+import KanbanLoading from "../../components/KanbanLoading";
+import Sidenav from "../../components/Sidenav";
+import Main from "../../components/Main";
+import Topnav from "../../components/Topnav";
+import Pillar from "../../components/Pillar";
+import PillarContainer from "../../components/PillarContainer";
+import PllarTitle from "../../components/PillarTitle";
+import CreateTask from "../../components/CreateTask";
+import { useKanbanstore } from "../../helper/kanbanstore";
+import CreateBoard from "../../components/CreateBoard";
+import Task from "../../components/Task";
 import { task, board } from "@prisma/client";
-import CreateColumn from "../components/CreateColumn";
+import CreateColumn from "../../components/CreateColumn";
+import DeleteBoard from "../../components/DeleteBoard";
+import EditTask from "../../components/EditTask";
+import DeleteColumn from "../../components/DeleteColumn";
 
 interface Tboard extends board {
   tasks: task[];
 }
 
 const page: FC = ({ params }: Params) => {
-  const [columns, setColumns] = useState<string[] | null>(null);
-  const { taskModal, boardModal, columnModal, selectedBoard } =
-    useKanbanstore();
   const {
-    data: user,
-    isFetched,
-    isLoading,
-  } = useQuery(["user"], async () => {
+    taskModal,
+    boardModal,
+    columnModal,
+    selectedBoard,
+    deleteBoardModal,
+    editTaskModal,
+    deleteColumnModal,
+  } = useKanbanstore();
+  const { data: user, isLoading } = useQuery(["user"], async () => {
     const user = await axios.post("/api/currentuser", { id: params.id });
     console.log(user);
     return user.data.user;
   });
 
-  useEffect(() => {
-    if (isFetched && selectedBoard) {
-      const getColumns = user.boards.filter((board: board) => {
-        return board.id === selectedBoard;
-      })[0];
-      console.log(getColumns.columns);
-      setColumns((prev) => (prev = [...getColumns.columns]));
-    }
-  }, [selectedBoard]);
+  const getColumns = user?.boards.filter((board: board) => {
+    return board.id === selectedBoard;
+  })[0]?.columns;
+  console.log(getColumns?.columns);
 
   return (
     <main
@@ -59,7 +59,7 @@ const page: FC = ({ params }: Params) => {
             <PillarContainer>
               {selectedBoard ? (
                 <>
-                  {columns?.map((item, key) => {
+                  {getColumns?.map((item: string, key: number) => {
                     return (
                       <PllarTitle key={key} name={item}>
                         <Pillar name={item}>
@@ -84,7 +84,13 @@ const page: FC = ({ params }: Params) => {
           </Main>
           <CreateTask user={user} show={taskModal}></CreateTask>
           <CreateBoard user={user} show={boardModal}></CreateBoard>
-          <CreateColumn show={columnModal}></CreateColumn>
+          <CreateColumn show={columnModal} columns={getColumns}></CreateColumn>
+          <DeleteBoard show={deleteBoardModal}></DeleteBoard>
+          <EditTask show={editTaskModal}></EditTask>
+          <DeleteColumn
+            show={deleteColumnModal}
+            columns={getColumns}
+          ></DeleteColumn>
         </>
       )}
     </main>

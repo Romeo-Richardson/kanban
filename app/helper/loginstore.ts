@@ -3,40 +3,43 @@ import axios from "axios";
 
 interface loginStore {
   isVerified: boolean;
-  username: string | null;
-  email: string | null;
-  password: string | null;
-  connectionName: string | null;
-  loginEmail: string | null;
-  loginPassword: string | null;
   setIsVerified: (data: boolean) => void;
+  username: string | null;
   setUsername: (data: string) => void;
-  setLoginEmail: (data: string) => void;
-  setLoginPassword: (data: string) => void;
+  email: string | null;
   setEmail: (data: string) => void;
+  password: string | null;
   setPassword: (data: string) => void;
+  loginEmail: string | null;
+  setLoginEmail: (data: string) => void;
+  loginPassword: string | null;
+  setLoginPassword: (data: string) => void;
+
+  connectionName: string | null;
+
   createUser: (e: React.FormEvent<HTMLFormElement>) => Promise<unknown>;
   login: (e: React.FormEvent<HTMLFormElement>) => Promise<unknown>;
 }
 
 export const useLoginStore = create<loginStore>((set, get) => ({
   isVerified: false,
-  username: null,
-  email: null,
-  password: null,
-  loginEmail: null,
-  loginPassword: null,
-  connectionName: null,
   setIsVerified: (data: boolean) => set({ isVerified: data }),
+  username: null,
   setUsername: (data: string) => set({ username: data }),
+  email: null,
   setEmail: (data: string) => set({ email: data }),
+  password: null,
   setPassword: (data: string) => set({ password: data }),
+  loginEmail: null,
   setLoginEmail: (data: string) => {
     set({ loginEmail: data });
   },
+  loginPassword: null,
   setLoginPassword: (data: string) => {
     set({ loginPassword: data });
   },
+  connectionName: null,
+
   createUser: async (e) => {
     e.preventDefault();
     try {

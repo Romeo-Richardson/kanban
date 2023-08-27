@@ -3,7 +3,6 @@ import { dbconnect } from "@/utils";
 import { NextResponse, NextRequest } from "next/server";
 import jwt from "jsonwebtoken";
 import bcrpyt from "bcrypt";
-import { redirect } from "next/navigation";
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -17,13 +16,16 @@ export const POST = async (req: NextRequest) => {
     await dbconnect();
     const findUser = await prisma.user.findFirst({
       where: { email: email },
-      select: { verificationid: true, password: true },
+      select: { verificationid: true, password: true, verified: true },
     });
     if (!findUser) {
       return NextResponse.json(
         { error: "Unable to find User" },
         { status: 403 }
       );
+    }
+    if (!findUser.verified) {
+      NextResponse.json({ error: "Email not verified" }, { status: 403 });
     }
     const comparePw = await bcrpyt.compare(password, findUser.password);
     if (!comparePw) {
