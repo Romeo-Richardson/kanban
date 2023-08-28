@@ -32,7 +32,7 @@ export const POST = async (req: NextRequest) => {
       return NextResponse.json({ error: "Invalid Password" }, { status: 403 });
     }
     const token = await jwt.sign(
-      findUser.verificationid,
+      { verificationid: findUser.verificationid, verified: findUser.verified },
       process.env.JWT_SECRET!,
       {
         expiresIn: "1hr",
