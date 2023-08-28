@@ -31,9 +31,13 @@ export const POST = async (req: NextRequest) => {
     if (!comparePw) {
       return NextResponse.json({ error: "Invalid Password" }, { status: 403 });
     }
-    const token = await jwt.sign(findUser, process.env.JWT_SECRET!, {
-      expiresIn: "1hr",
-    });
+    const token = await jwt.sign(
+      findUser.verificationid,
+      process.env.JWT_SECRET!,
+      {
+        expiresIn: "1hr",
+      }
+    );
     if (!token) {
       NextResponse.json({ error: "Unable to create token" }, { status: 403 });
     }
