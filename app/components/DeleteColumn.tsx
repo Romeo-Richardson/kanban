@@ -60,8 +60,8 @@ const DeleteColumn = ({ show, columns }: props) => {
               name="column"
               className=" bg-slate-900 w-full border-gray-800 p-2 border-[1px]"
             >
-              {columns.map((column) => {
-                return <option>{column}</option>;
+              {columns.map((column, key) => {
+                return <option key={key}>{column}</option>;
               })}
             </select>
             <button

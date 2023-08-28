@@ -4,7 +4,7 @@ import React, { FC, useEffect } from "react";
 import Login from "../components/Login";
 import { toast } from "react-hot-toast/headless";
 
-const page: FC = () => {
+const LoginPage = () => {
   useEffect(() => {
     toast("Hello World");
   }, []);
@@ -15,4 +15,4 @@ const page: FC = () => {
   );
 };
 
-export default page;
+export default LoginPage;

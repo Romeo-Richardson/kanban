@@ -9,6 +9,6 @@ export const tokenData = async (req: NextRequest) => {
     console.log(decodeToken);
     return decodeToken.verificationid;
   } catch (error: any) {
-    throw new Error(error.message);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 };

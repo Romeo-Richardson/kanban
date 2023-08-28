@@ -24,7 +24,7 @@ interface Tboard extends board {
   tasks: task[];
 }
 
-const page: FC = ({ params }: Params) => {
+const MainDashboard = ({ params }: { params: { id: string } }) => {
   const {
     taskModal,
     boardModal,
@@ -97,4 +97,4 @@ const page: FC = ({ params }: Params) => {
   );
 };
 
-export default page;
+export default MainDashboard;
