@@ -92,7 +92,7 @@ const SignupPortion: FC = () => {
 const LoginPortion: FC = () => {
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
-  const { setLoginPassword, setLoginEmail, login } = useLoginStore();
+  const { login } = useLoginStore();
 
   return (
     <form
@@ -119,9 +119,6 @@ const LoginPortion: FC = () => {
         ref={emailInputRef}
         required
         placeholder="Email"
-        onChange={(e) => {
-          setLoginEmail(e.target.value);
-        }}
         className="h-12 border-[1px] border-purple-300 rounded-md px-1"
       />
       <label htmlFor="Password" className=" hover: cursor-text">
@@ -133,9 +130,6 @@ const LoginPortion: FC = () => {
         ref={passwordInputRef}
         required
         placeholder="Password"
-        onChange={(e) => {
-          setLoginPassword(e.target.value);
-        }}
         className="h-12 border-[1px] border-purple-300 rounded-md px-1"
       />
       <button

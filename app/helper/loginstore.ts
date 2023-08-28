@@ -57,10 +57,13 @@ export const useLoginStore = create<loginStore>((set, get) => ({
   },
   login: async (e) => {
     e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const email = data.get("Email");
+    const pw = data.get("Password");
     try {
       const { data } = await axios.post("/api/login", {
-        email: get().loginEmail,
-        password: get().loginPassword,
+        email: email,
+        password: pw,
       });
       set({ isVerified: true });
       set({ connectionName: data.id });
