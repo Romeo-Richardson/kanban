@@ -23,7 +23,11 @@ export const POST = async (req: Request) => {
         data: { verified: true },
         select: { verified: true },
       });
-      pusherServer.trigger(verification, "verification", verifiedUser.verified);
+      await pusherServer.trigger(
+        verification,
+        "verification",
+        verifiedUser.verified
+      );
       return NextResponse.json(
         { message: "Verification Success" },
         { status: 200 }
