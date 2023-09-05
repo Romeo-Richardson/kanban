@@ -24,6 +24,13 @@ export const POST = async (req: Request) => {
       );
     }
     await dbconnect();
+    const checkUser = await prisma.user.findFirst({ where: { email: email } });
+    if (checkUser) {
+      return NextResponse.json(
+        { error: "User already exists" },
+        { status: 403 }
+      );
+    }
     const newUser = await prisma.user.create({
       data: { username, email, password: securePassword },
       select: { verificationid: true },
