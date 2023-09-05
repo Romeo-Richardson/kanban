@@ -4,8 +4,6 @@ import { tokenData } from "./app/helper/token";
 export const middleware = async (req: NextRequest) => {
   const path = req.nextUrl.pathname;
   const token = req.cookies.get("token")?.value || "";
-  console.log(path);
-  console.log(token);
   if (path !== "/login" && !token) {
     return NextResponse.redirect(new URL("/login", req.nextUrl));
   }

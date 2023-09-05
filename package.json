@@ -25,7 +25,7 @@
     "encoding": "^0.1.13",
     "eslint": "8.47.0",
     "eslint-config-next": "13.4.19",
-    "jsonwebtoken": "^9.0.1",
+    "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "next": "13.4.19",
     "postcss": "8.4.28",
