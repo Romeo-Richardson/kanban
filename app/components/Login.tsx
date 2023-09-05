@@ -167,7 +167,7 @@ const Login: FC = () => {
   useEffect(() => {
     if (isVerified) {
       toast("Logging In");
-      push(`/home/${connectionName}`);
+      push(`https://kanban-tau-six.vercel.app/home/${connectionName}`);
     }
   }, [isVerified]);
 
