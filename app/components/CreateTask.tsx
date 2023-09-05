@@ -43,7 +43,6 @@ const CreateTask = ({ user, show }: props): React.ReactNode => {
       const findBoard = prev.boards.filter((board: board) => {
         return board.id === selectedBoard;
       })[0];
-      console.log(findBoard);
       const boardIndex = prev.boards.indexOf(findBoard);
       prev.boards[boardIndex].tasks.push({
         name: taskNameInput,

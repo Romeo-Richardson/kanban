@@ -40,7 +40,6 @@ const CreateColumn = ({ show, columns }: props): React.ReactNode => {
       })[0];
       const boardIndex = prev.boards.indexOf(findBoard);
       prev.boards[boardIndex].columns.push(columnInput);
-      console.log(prev);
       queryClient.setQueryData(["user"], prev);
       queryClient.invalidateQueries({ queryKey: ["user"] });
     } catch (error: any) {
