@@ -22,7 +22,7 @@ export const useLoginStore = create<loginStore>((set, get) => ({
     e.preventDefault();
     const form = new FormData(e.currentTarget);
     try {
-      const user = await axios.post("http://localhost:3000/api/createuser", {
+      const user = await axios.post("/api/createuser", {
         username: form.get("Username"),
         email: form.get("Email"),
         password: form.get("Password"),
