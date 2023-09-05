@@ -5,6 +5,7 @@ import { useLoginStore } from "../helper/loginstore";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
 const SignupPortion: FC = () => {
   const usernameInputref = useRef<HTMLInputElement>(null);
@@ -167,7 +168,7 @@ const Login: FC = () => {
   useEffect(() => {
     if (isVerified) {
       toast("Logging In");
-      push(`/home/${connectionName}`);
+      redirect(`/home/${connectionName}`);
     }
   }, [isVerified]);
 
