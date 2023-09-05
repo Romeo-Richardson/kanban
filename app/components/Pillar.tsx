@@ -48,7 +48,7 @@ const Pillar = ({ children, name }: props): React.ReactNode => {
           error: "Updated Failed",
         });
       }}
-      className="h-[90%] w-72 bg-slate-700 flex flex-col gap-4 rounded-md mx-6 opacity-25"
+      className="h-[90%] w-72 bg-slate-700 flex overflow-auto flex-col gap-4 rounded-md mx-6 opacity-25"
     >
       {children}
     </div>
