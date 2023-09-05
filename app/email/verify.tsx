@@ -28,7 +28,7 @@ export const DropboxResetPasswordEmail = ({
   return (
     <Html>
       <Head />
-      <Preview>Dropbox reset your password</Preview>
+      <Preview>Kanban Email Verification</Preview>
       <Body style={main}>
         <Container style={container}>
           <Img
