@@ -11,7 +11,7 @@ interface myProps {
 
 const AwaitVerification: FC<myProps> = ({ paramsId }: any) => {
   const verifyUser = async () => {
-    await axios.post("../api/verifyemail", {
+    await axios.post("/api/verifyemail", {
       verification: paramsId,
     });
   };
