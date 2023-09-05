@@ -41,7 +41,7 @@ export const POST = async (req: Request) => {
       subject: "Verify Email",
       react: DropboxResetPasswordEmail({
         userFirstname: username,
-        resetPasswordLink: `http://localhost:3000/login/${newUser.verificationid}`,
+        resetPasswordLink: `https://kanban-git-main-romeo-richardson.vercel.app/login/${newUser.verificationid}`,
       }),
     });
     if (!newEmail) {
