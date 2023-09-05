@@ -37,7 +37,7 @@ export const POST = async (req: Request) => {
     }
     const newEmail = await resend.emails.send({
       from: "kanbantrello@resend.dev",
-      to: email,
+      to: `${email}`,
       subject: "Verify Email",
       react: DropboxResetPasswordEmail({
         userFirstname: username,
