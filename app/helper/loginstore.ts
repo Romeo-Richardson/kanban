@@ -4,16 +4,6 @@ import axios from "axios";
 interface loginStore {
   isVerified: boolean;
   setIsVerified: (data: boolean) => void;
-  username: string | null;
-  setUsername: (data: string) => void;
-  email: string | null;
-  setEmail: (data: string) => void;
-  password: string | null;
-  setPassword: (data: string) => void;
-  loginEmail: string | null;
-  setLoginEmail: (data: string) => void;
-  loginPassword: string | null;
-  setLoginPassword: (data: string) => void;
 
   connectionName: string | null;
 
@@ -25,28 +15,17 @@ export const useLoginStore = create<loginStore>((set, get) => ({
   isVerified: false,
   setIsVerified: (data: boolean) => set({ isVerified: data }),
   username: null,
-  setUsername: (data: string) => set({ username: data }),
-  email: null,
-  setEmail: (data: string) => set({ email: data }),
-  password: null,
-  setPassword: (data: string) => set({ password: data }),
-  loginEmail: null,
-  setLoginEmail: (data: string) => {
-    set({ loginEmail: data });
-  },
-  loginPassword: null,
-  setLoginPassword: (data: string) => {
-    set({ loginPassword: data });
-  },
+
   connectionName: null,
 
   createUser: async (e) => {
     e.preventDefault();
+    const form = new FormData(e.currentTarget);
     try {
       const user = await axios.post("http://localhost:3000/api/createuser", {
-        username: get().username,
-        email: get().email,
-        password: get().password,
+        username: form.get("Username"),
+        email: form.get("Email"),
+        password: form.get("Password"),
       });
       console.log(user);
       console.log(user.data.newUser.verificationid);
@@ -57,13 +36,11 @@ export const useLoginStore = create<loginStore>((set, get) => ({
   },
   login: async (e) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    const email = data.get("Email");
-    const pw = data.get("Password");
+    const form = new FormData(e.currentTarget);
     try {
       const { data } = await axios.post("/api/login", {
-        email: email,
-        password: pw,
+        email: form.get("Email"),
+        password: form.get("Password"),
       });
       set({ isVerified: true });
       set({ connectionName: data.id });

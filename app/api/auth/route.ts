@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest) => {
   try {
-    const token = tokenData(req);
+    const token = await Promise.resolve(tokenData(req))
     if (!token) {
       return NextResponse.json({ auth: false });
     }

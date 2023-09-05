@@ -5,20 +5,18 @@ import { useLoginStore } from "../helper/loginstore";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { connect } from "http2";
 
 const SignupPortion: FC = () => {
   const usernameInputref = useRef<HTMLInputElement>(null);
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
-  const { createUser, setUsername, setPassword, setEmail, setIsVerified } =
-    useLoginStore();
+  const { createUser } = useLoginStore();
 
   return (
     <>
       <form
-        onSubmit={(data) => {
-          toast.promise(createUser(data), {
+        onSubmit={(e) => {
+          toast.promise(createUser(e), {
             loading: "Creating User",
             success: "User Created, verify email to login.",
             error: "Failed to Create User",
@@ -45,9 +43,6 @@ const SignupPortion: FC = () => {
           ref={usernameInputref}
           required
           placeholder="Username"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setUsername(e.target.value);
-          }}
           className="h-12 border-[1px] border-purple-300 rounded-md px-1"
         />
         <label htmlFor="Email" className=" hover: cursor-text">
@@ -59,9 +54,6 @@ const SignupPortion: FC = () => {
           ref={emailInputRef}
           required
           placeholder="Email"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setEmail(e.target.value);
-          }}
           className="h-12 border-[1px] border-purple-300 rounded-md px-1"
         />
         <label htmlFor="Password" className=" hover: cursor-text">
@@ -73,9 +65,6 @@ const SignupPortion: FC = () => {
           ref={passwordInputRef}
           required
           placeholder="Password"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setPassword(e.target.value);
-          }}
           className="h-12 border-[1px] border-purple-300 rounded-md px-1"
         />
         <button
@@ -147,7 +136,7 @@ const Login: FC = () => {
 
   const { push } = useRouter();
 
-  const { connectionName, setIsVerified, email, isVerified } = useLoginStore();
+  const { connectionName, setIsVerified, isVerified } = useLoginStore();
 
   const authenticateUser = async (id: string) => {
     const auth = await axios.post("/api/firstlogin", { id: id });
@@ -162,7 +151,7 @@ const Login: FC = () => {
       pusherClient.bind("verification", (data: boolean) => {
         console.log(data);
         toast.promise(authenticateUser(connectionName), {
-          loading: `Please verify email sent to ${email}`,
+          loading: `Please verify email`,
           success: "Logged in Successfully",
           error: "Unable to verify user",
         });
@@ -180,7 +169,6 @@ const Login: FC = () => {
       toast("Logging In");
       push(`/home/${connectionName}`);
     }
-    console.log("Trolling");
   }, [isVerified]);
 
   return (

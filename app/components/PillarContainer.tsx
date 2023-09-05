@@ -17,7 +17,7 @@ const PillarContainer = (props: containerProps): React.ReactNode => {
           </div>
         </>
       ) : (
-        <p className=" text-slate-700 opacity-50  text-4xl">
+        <p className=" text-slate-700 opacity-50 text-4xl">
           Select or Create a Board
         </p>
       )}
