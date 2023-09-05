@@ -31,7 +31,7 @@ export const POST = async (req: NextRequest) => {
     if (!comparePw) {
       return NextResponse.json({ error: "Invalid Password" }, { status: 403 });
     }
-    const token = await jwt.sign(
+    const token = jwt.sign(
       { verificationid: findUser.verificationid, verified: findUser.verified },
       process.env.JWT_SECRET!,
       {

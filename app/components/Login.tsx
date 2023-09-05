@@ -138,8 +138,9 @@ const Login: FC = () => {
 
   const { connectionName, setIsVerified, isVerified } = useLoginStore();
 
-  const authenticateUser = async (id: string) => {
+  const authenticateUser = async (id: string, data: boolean) => {
     const auth = await axios.post("/api/firstlogin", { id: id });
+    setIsVerified(data);
     return auth;
   };
 
@@ -150,12 +151,11 @@ const Login: FC = () => {
 
       pusherClient.bind("verification", (data: boolean) => {
         console.log(data);
-        toast.promise(authenticateUser(connectionName), {
+        toast.promise(authenticateUser(connectionName, data), {
           loading: `Please verify email`,
           success: "Logged in Successfully",
           error: "Unable to verify user",
         });
-        setIsVerified(data);
       });
     }
 

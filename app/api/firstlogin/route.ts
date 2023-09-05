@@ -23,7 +23,7 @@ export const POST = async (req: Request, res: NextResponse) => {
         { status: 403 }
       );
     }
-    const newToken = await jwt.sign(findUser, process.env.JWT_SECRET!, {
+    const newToken = jwt.sign(findUser, process.env.JWT_SECRET!, {
       expiresIn: "1hr",
     });
     if (!newToken) {
