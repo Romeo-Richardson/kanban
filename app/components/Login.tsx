@@ -18,7 +18,7 @@ const SignupPortion: FC = () => {
         onSubmit={(e) => {
           toast.promise(createUser(e), {
             loading: "Creating User",
-            success: "User Created, verify email to login.",
+            success: "User Created, try logging in.",
             error: "Failed to Create User",
           });
           if (
