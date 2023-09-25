@@ -5,7 +5,7 @@ import prisma from "@/prisma";
 import { Resend } from "resend";
 import DropboxResetPasswordEmail from "@/app/email/verify";
 
-const resend = new Resend(process.env.RESEND_KEY);
+const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_KEY);
 
 export const POST = async (req: Request) => {
   try {
