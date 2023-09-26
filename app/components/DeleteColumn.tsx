@@ -61,7 +61,7 @@ const DeleteColumn = ({ show, columns }: props) => {
               className=" bg-slate-900 w-full border-gray-800 p-2 border-[1px]"
             >
               {columns.map((column, key) => {
-                return <option key={key}>{column}</option>;
+                return <option key={key}>{column !== "Todo" && column}</option>;
               })}
             </select>
             <button
