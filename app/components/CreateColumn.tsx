@@ -8,11 +8,10 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { board } from "@prisma/client";
 
 interface props {
-  show: boolean;
   columns: string[];
 }
 
-const CreateColumn = ({ show, columns }: props): React.ReactNode => {
+const CreateColumn = ({ columns }: props): React.ReactNode => {
   const { setColumnModal, selectedBoard } = useKanbanstore();
   const [columnInput, setColumnInput] = useState<string>("");
 
@@ -50,48 +49,44 @@ const CreateColumn = ({ show, columns }: props): React.ReactNode => {
   };
 
   return (
-    <>
-      {show ? (
-        <Modal>
-          <form
-            className="p-4 w-[275px] flex flex-col items-center bg-slate-900 rounded-md border-gray-600 gap-4 border-[1px] text-white"
-            ref={createColumnRef}
-            onSubmit={async (e) => {
-              e.preventDefault();
-              const checkColumns = columns.includes(columnInput);
-              if (!selectedBoard) {
-                toast.error("Please select a board");
-              } else if (checkColumns) {
-                toast.error("Duplicate Column");
-              } else {
-                await toast.promise(newColumn(), {
-                  loading: "Creating Column",
-                  success: "Column Created",
-                  error: "Failed to create column",
-                });
-                refetch();
-              }
-            }}
-          >
-            <input
-              name="Task"
-              id="createTask"
-              className="text-black p-2"
-              placeholder="Column Name"
-              onChange={(e) => {
-                setColumnInput(e.target.value);
-              }}
-            ></input>
-            <button
-              className="text-green-900 w-full p-2 bg-green-300 rounded hover:bg-green-400 active:bg-green-600"
-              type="submit"
-            >
-              Submit
-            </button>
-          </form>
-        </Modal>
-      ) : null}
-    </>
+    <Modal>
+      <form
+        className="p-4 w-[275px] flex flex-col items-center bg-slate-900 rounded-md border-gray-600 gap-4 border-[1px] text-white"
+        ref={createColumnRef}
+        onSubmit={async (e) => {
+          e.preventDefault();
+          const checkColumns = columns.includes(columnInput);
+          if (!selectedBoard) {
+            toast.error("Please select a board");
+          } else if (checkColumns) {
+            toast.error("Duplicate Column");
+          } else {
+            await toast.promise(newColumn(), {
+              loading: "Creating Column",
+              success: "Column Created",
+              error: "Failed to create column",
+            });
+            refetch();
+          }
+        }}
+      >
+        <input
+          name="Task"
+          id="createTask"
+          className="text-black p-2"
+          placeholder="Column Name"
+          onChange={(e) => {
+            setColumnInput(e.target.value);
+          }}
+        ></input>
+        <button
+          className="text-green-900 w-full p-2 bg-green-300 rounded hover:bg-green-400 active:bg-green-600"
+          type="submit"
+        >
+          Submit
+        </button>
+      </form>
+    </Modal>
   );
 };
 

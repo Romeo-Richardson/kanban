@@ -82,11 +82,11 @@ const MainDashboard = ({ params }: { params: { id: string } }) => {
               ) : null}
             </PillarContainer>
           </Main>
-          <CreateTask user={user} show={taskModal}></CreateTask>
-          <CreateBoard user={user} show={boardModal}></CreateBoard>
-          <CreateColumn show={columnModal} columns={getColumns}></CreateColumn>
-          <DeleteBoard show={deleteBoardModal}></DeleteBoard>
-          <EditTask show={editTaskModal}></EditTask>
+          {taskModal && <CreateTask user={user}></CreateTask>}
+          {boardModal && <CreateBoard user={user}></CreateBoard>}
+          {columnModal && <CreateColumn columns={getColumns}></CreateColumn>}
+          {deleteBoardModal && <DeleteBoard></DeleteBoard>}
+          {editTaskModal && <EditTask></EditTask>}
           <DeleteColumn
             show={deleteColumnModal}
             columns={getColumns}

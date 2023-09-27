@@ -15,10 +15,9 @@ interface props {
     id: string;
     boards: board[];
   };
-  show: boolean;
 }
 
-const CreateTask = ({ user, show }: props): React.ReactNode => {
+const CreateTask = ({ user }: props): React.ReactNode => {
   const [taskInput, setTaskInput] = useState<string | null>(null);
   const [taskNameInput, setTaskNameInput] = useState<string | null>(null);
   const { setTaskModal, selectedBoard } = useKanbanstore();
@@ -56,53 +55,49 @@ const CreateTask = ({ user, show }: props): React.ReactNode => {
   };
 
   return (
-    <>
-      {show ? (
-        <Modal>
-          <form
-            className="p-4 w-[450px] flex flex-col items-center bg-slate-900 rounded-md border-gray-600 gap-4 border-[1px] text-white"
-            ref={createTaskRef}
-            onSubmit={async (e) => {
-              e.preventDefault();
-              setTaskModal(false);
-              await toast.promise(createTask(), {
-                loading: "Creating Task",
-                success: "Task Created",
-                error: "Unable to create task",
-              });
-              refetch();
-            }}
-          >
-            <p className="text-white">Create New Task</p>
-            <input
-              type="text"
-              placeholder="Task Name"
-              className="text-black w-full px-2"
-              onChange={(e) => {
-                setTaskNameInput(e.target.value);
-              }}
-            />
-            <textarea
-              name="Task"
-              id="createTask"
-              placeholder="Task Details"
-              className="text-black w-full p-2"
-              onChange={(e) => {
-                setTaskInput(e.target.value);
-              }}
-              cols={30}
-              rows={10}
-            ></textarea>
-            <button
-              className="text-green-900 w-full p-2 bg-green-300 rounded hover:bg-green-400 active:bg-green-600"
-              type="submit"
-            >
-              Submit
-            </button>
-          </form>
-        </Modal>
-      ) : null}
-    </>
+    <Modal>
+      <form
+        className="p-4 w-[450px] flex flex-col items-center bg-slate-900 rounded-md border-gray-600 gap-4 border-[1px] text-white"
+        ref={createTaskRef}
+        onSubmit={async (e) => {
+          e.preventDefault();
+          setTaskModal(false);
+          await toast.promise(createTask(), {
+            loading: "Creating Task",
+            success: "Task Created",
+            error: "Unable to create task",
+          });
+          refetch();
+        }}
+      >
+        <p className="text-white">Create New Task</p>
+        <input
+          type="text"
+          placeholder="Task Name"
+          className="text-black w-full px-2"
+          onChange={(e) => {
+            setTaskNameInput(e.target.value);
+          }}
+        />
+        <textarea
+          name="Task"
+          id="createTask"
+          placeholder="Task Details"
+          className="text-black w-full p-2"
+          onChange={(e) => {
+            setTaskInput(e.target.value);
+          }}
+          cols={30}
+          rows={10}
+        ></textarea>
+        <button
+          className="text-green-900 w-full p-2 bg-green-300 rounded hover:bg-green-400 active:bg-green-600"
+          type="submit"
+        >
+          Submit
+        </button>
+      </form>
+    </Modal>
   );
 };
 

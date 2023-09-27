@@ -1,8 +1,8 @@
-import React, { FC } from "react";
+import React from "react";
 import Image from "next/image";
 import kanban from "../assets/kanbanicon9.png";
 
-const KanbanLoading: FC = () => {
+const KanbanLoading = (): React.ReactNode => {
   return (
     <div className=" flex flex-col gap-2 items-center justify-center">
       <span>
