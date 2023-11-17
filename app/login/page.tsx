@@ -9,7 +9,7 @@ const LoginPage = () => {
     toast("Hello World");
   }, []);
   return (
-    <main className="container h-screen flex justify-center items-center">
+    <main className="h-screen flex justify-center items-center">
       <Login></Login>
     </main>
   );
